@@ -1,0 +1,26 @@
+PODS:
+  - Alamofire (4.5.1)
+  - AlamofireImage (3.3.0):
+    - Alamofire (~> 4.5)
+  - RxCocoa (4.0.0):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.0.0)
+  - SwiftMessages (4.0.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - AlamofireImage (~> 3.3)
+  - RxCocoa (~> 4.0)
+  - RxSwift (~> 4.0)
+  - SwiftMessages
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
+  RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
+  RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
+  SwiftMessages: cd565e0e7d095584be1770c012c6b5be4183b5ee
+
+PODFILE CHECKSUM: 3a92e3f6c5b1025636e6eee8678f2a1d38083d65
+
+COCOAPODS: 1.2.1

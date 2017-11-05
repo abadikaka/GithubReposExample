@@ -1,0 +1,6 @@
+framework module Pods_GithubReposUITests {
+  umbrella header "Pods-GithubReposUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
