@@ -9,9 +9,13 @@
 import Foundation
 import RxSwift
 
+/**
+ * @discussion Protocol to callback send event to the View of GitHub Controller to detect an error
+ */
 protocol GithubViewModelDelegate: class {
     func errorDidChange(error: NetworkError?)
 }
+
 /**
  * @discussion Class for Home GitHub ViewModel
  */
@@ -25,7 +29,7 @@ class GithubViewModel: NSObject {
     var githubList : GithubUsers?
     var fetchCompletionHandler: ((GithubUsers?)->Void)?
     
-    /*
+    
     // variable for current errorType
     var errorType: NetworkError? {
         didSet {
@@ -39,7 +43,7 @@ class GithubViewModel: NSObject {
             delegate?.errorDidChange(error: errorType)
         }
     }
-    */
+    
     
     override init() {
         super.init()
@@ -92,11 +96,15 @@ class GithubViewModel: NSObject {
                 self.githubList!.setupFavouriteChannel(channelIds: self.favouriteChannelIds.value)
                 
                 self.saveToDatabase(key: Config.DatabaseKey.githubResponses, object: self.githubList!.arrayResponse as AnyObject)
-                
+                self.errorType = nil
                 DispatchQueue.main.async(execute: {
                     completion(self.githubList!)
                 })
             }else{
+                if let object = object as? URLError {
+                    self.errorType = NetworkManager.sharedInstance.checkErrorType(errorCode: object.code.rawValue)
+                }
+                
                 // if fail load Database one time
                 self.fetchCompletionHandler = completion
                 if DatabaseManager.appFirstLaunch {

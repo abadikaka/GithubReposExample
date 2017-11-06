@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+/**
+ * @discussion Extention for anything goes here
+ */
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -18,6 +21,9 @@ extension UIColor {
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
     
+    /**
+     * @discussion Extention for RGB Color
+     */
     convenience init(rgb: Int) {
         self.init(
             red: (rgb >> 16) & 0xFF,
@@ -31,7 +37,14 @@ extension UIColor {
     }
 }
 
+/**
+ * @discussion Extention for UIView
+ */
 extension UIView {
+    
+    /**
+     * @discussion function for manual constraint ex : addConstraintsWithFormat("H:|[v0]|", self.labelOne)
+     */
     func addConstraintsWithFormat(_ format: String, views: UIView...) {
         var viewsDictionary = [String: UIView]()
         for (index, view) in views.enumerated() {

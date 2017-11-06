@@ -12,6 +12,9 @@ import UIKit
 // public image cache
 let imageCache = NSCache<NSString, UIImage>()
 
+/**
+ * @discussion Custom Component of Image View to caching the image before loading new Image
+ */
 class CustomImageView:  UIImageView {
     var imageUrlString: String?
     

@@ -56,14 +56,14 @@ class GithubUsersTableViewController: UITableViewController {
         populateGithubFavourites()
         manualRefresh()
         //populateGithubUsers()
-        //setupViewModel()
+        setupViewModel()
     }
     
     /**
      * @discussion function for setup view model
      */
     private func setupViewModel(){
-        //viewModel.delegate = self
+        viewModel.delegate = self
     }
     
     /**
@@ -143,9 +143,13 @@ class GithubUsersTableViewController: UITableViewController {
                     self.isFetching = false
                     self.errorResponse = false
                     self.githubTableView.reloadData()
-                    if !NotificationBarManager.successCalledOnce {
-                        NotificationBarManager.sharedInstance.showNotifBarSuccess()
-                        NotificationBarManager.successCalledOnce = true
+                    if self.errorType != nil {
+                        
+                    }else{
+                        if !NotificationBarManager.successCalledOnce {
+                            NotificationBarManager.sharedInstance.showNotifBarSuccess()
+                            NotificationBarManager.successCalledOnce = true
+                        }
                     }
                     self.githubTableView.refreshControl!.endRefreshing()
                 }else{
@@ -246,10 +250,9 @@ class GithubUsersTableViewController: UITableViewController {
 }
 
 // MARK: Conform to GithubViewModelDelegate protocol
-/*extension GithubUsersTableViewController: GithubViewModelDelegate {
+extension GithubUsersTableViewController: GithubViewModelDelegate {
     
     func errorDidChange(error: NetworkError?) {
         self.errorType = error
     }
 }
- */
