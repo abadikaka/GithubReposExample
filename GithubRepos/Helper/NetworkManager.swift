@@ -26,7 +26,7 @@ public enum NetworkError: Error {
 }
 
 // Define the parameter's dictionary
-public typealias ParametersDict = [String : Any?]
+public typealias ParametersDict = [String : Any]
 
 // Define the header's dictionary
 public typealias HeadersDict = [String: String]
@@ -83,10 +83,12 @@ class NetworkManager: NSObject {
      * @param customUrl - custom url string to request
      * @param completion - void
      */
-    func fetchUrl(request: RequestPath, customUrl: String?, _ completion: @escaping (AnyObject?) -> Void){
+    func fetchUrl(request: RequestPath, customUrl: String?, additionalParam: String?, _ completion: @escaping (AnyObject?) -> Void){
         switch request {
         case .getUsers:
-            requestEndpoint(Config.Endpoint.getUsers+String(Config.Parameters.getUserPaginationNumber), type: .users, method: .get, body: nil, headers: nil, completion: completion)
+            let url = Config.Endpoint.getUsers+additionalParam!
+            print("URL : ", url)
+            requestEndpoint(url, type: .users, method: .get, body: nil, headers: nil, completion: completion)
         case .getImage:
             requestEndpoint(customUrl!, type: .users, method: .get, body: nil, headers: nil, completion: completion)
         }
@@ -106,10 +108,13 @@ class NetworkManager: NSObject {
         let utilityQueue = DispatchQueue.global(qos: .utility)
         
         if let body = body {
-            let parameters: Parameters = body as Any as! Parameters
-            Alamofire.request(urlString, method: method,  parameters: parameters)
-                .responseJSON(queue: utilityQueue) { response in
-                    
+            switch method {
+                default:
+                    let parameters: Parameters = body as Parameters
+                    Alamofire.request(urlString, method: method,  parameters: parameters)
+                        .responseJSON(queue: utilityQueue) { response in
+                            
+                    }
             }
         }else{
             Alamofire.request(urlString, method: method)

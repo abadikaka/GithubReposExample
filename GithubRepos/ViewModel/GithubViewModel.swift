@@ -44,7 +44,6 @@ class GithubViewModel: NSObject {
         }
     }
     
-    
     override init() {
         super.init()
         githubList = nil
@@ -81,7 +80,8 @@ class GithubViewModel: NSObject {
      * @discussion function for fetching Github Users from API
      */
     func fetchGithubListOldWay(completion: @escaping(GithubUsers?) -> Void){
-        NetworkManager.sharedInstance.fetchUrl(request: .getUsers, customUrl: nil, { [unowned self] (object) in
+        let param = githubList != nil ? String(describing: githubList!.users.count) : String(describing: 0)
+        NetworkManager.sharedInstance.fetchUrl(request: .getUsers, customUrl: nil, additionalParam: param, { [unowned self] (object) in
             if let object = object as? GithubUsers {
                 let githubList = object
                 let newArrayOfUser = githubList.users
@@ -96,10 +96,13 @@ class GithubViewModel: NSObject {
                 self.githubList!.setupFavouriteChannel(channelIds: self.favouriteChannelIds.value)
                 
                 self.saveToDatabase(key: Config.DatabaseKey.githubResponses, object: self.githubList!.arrayResponse as AnyObject)
+                
                 self.errorType = nil
+                
                 DispatchQueue.main.async(execute: {
                     completion(self.githubList!)
                 })
+                
             }else{
                 if let object = object as? URLError {
                     self.errorType = NetworkManager.sharedInstance.checkErrorType(errorCode: object.code.rawValue)
@@ -108,11 +111,13 @@ class GithubViewModel: NSObject {
                 // if fail load Database one time
                 self.fetchCompletionHandler = completion
                 if DatabaseManager.appFirstLaunch {
+                    
                     DatabaseManager.appFirstLaunch = false
                     DispatchQueue.main.async(execute: {
                         self.retrieveFromDatabase(key: Config.DatabaseKey.githubResponses)
                     })
                 }else{
+                    
                     DispatchQueue.main.async(execute: {
                         completion(nil)
                     })
@@ -167,6 +172,7 @@ extension GithubViewModel: AbilityToSaveToDatabase{
                 if let object = object {
                     self.githubList = GithubUsers(array: object as! [[String: AnyObject]])
                     print("GithubResponses retrieved : ", self.githubList!.users.count)
+                    
                     // mapping current channel with the favourite
                     self.githubList!.setupFavouriteChannel(channelIds: self.favouriteChannelIds.value)
                     self.fetchCompletionHandler!(self.githubList!)

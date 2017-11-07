@@ -13,6 +13,7 @@ import UIKit
  */
 class GithubDetailViewController: UIViewController {
     
+    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     @IBOutlet weak var githubWebView: UIWebView!
 
     var webViewLink: String?
@@ -36,6 +37,8 @@ class GithubDetailViewController: UIViewController {
      */
     private func setupWebView(){
         githubWebView.scrollView.bounces = false
+        githubWebView.delegate = self
+        loadingSpinner.hidesWhenStopped = true
         self.navigationController?.navigationBar.tintColor = UIColor.white        
     }
     
@@ -46,5 +49,17 @@ class GithubDetailViewController: UIViewController {
     private func callWebView(link: URL){
         let request = URLRequest(url: link, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 10.0)
         githubWebView.loadRequest(request)
+    }
+}
+
+
+extension GithubDetailViewController: UIWebViewDelegate {
+    
+    func webViewDidStartLoad(_ : UIWebView) {
+        loadingSpinner.startAnimating()
+    }
+    
+    func webViewDidFinishLoad(_ : UIWebView) {
+        loadingSpinner.stopAnimating()
     }
 }

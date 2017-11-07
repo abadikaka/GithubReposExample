@@ -83,8 +83,6 @@ class GithubUsersTableViewController: UITableViewController {
      */
     @objc private func refresh(sender:AnyObject) {
         NotificationBarManager.successCalledOnce = false
-        Config.Parameters.getUserPaginationNumber = 0
-        currentPage = 0
         errorResponse = false
         populateGithubUsers()
     }
@@ -165,17 +163,34 @@ class GithubUsersTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - Table view data source
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == githubDetailSegue {
+            let vc = segue.destination as! GithubDetailViewController
+            if let indexPath =  githubTableView.indexPathForSelectedRow {
+                if indexPath.row < githubUsers!.users.count {
+                    let githubUser = githubUsers!.users[indexPath.row].githubUrl
+                    vc.webViewLink = githubUser
+                }
+            }
+        }
+    }
+
+}
+
+// MARK: - Table view data source
+extension GithubUsersTableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return githubUsers.value != nil ? githubUsers.value!.users.count > 0 ? githubUsers.value!.users.count+5 : 5 : 5
         return githubUsers != nil ? githubUsers!.users.count > 0 ? githubUsers!.users.count + 2 : 5 : self.errorResponse ? 1 : 5
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: githubCellIdentifier, for: indexPath) as! GithubUsersTableViewCell
@@ -209,7 +224,7 @@ class GithubUsersTableViewController: UITableViewController {
         }
         return indexPath
     }
-
+    
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if indexPath.row >= githubUsers!.users.count {
             return false
@@ -226,28 +241,12 @@ class GithubUsersTableViewController: UITableViewController {
         }
         let lastElement = githubUser.users.count - 1
         if !isFetching && indexPath.row == lastElement - 5 {
-            currentPage += 1
-            Config.Parameters.getUserPaginationNumber += 30
             populateGithubUsers()
         }
     }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == githubDetailSegue {
-            let vc = segue.destination as! GithubDetailViewController
-            if let indexPath =  githubTableView.indexPathForSelectedRow {
-                if indexPath.row < githubUsers!.users.count {
-                    let githubUser = githubUsers!.users[indexPath.row].githubUrl
-                    vc.webViewLink = githubUser
-                }
-            }
-        }
-    }
-
 }
+
+
 
 // MARK: Conform to GithubViewModelDelegate protocol
 extension GithubUsersTableViewController: GithubViewModelDelegate {

@@ -13,7 +13,7 @@
         <!--Github Users-->
         <scene sceneID="t63-ns-qAW">
             <objects>
-                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="f1F-V1-5kw" customClass="GithubUsersTableViewController" customModule="GithubRepos" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="f1F-V1-5kw" customClass="GithubUsersTableViewController" customModule="GithubRepos" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="D0o-XP-Xkw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,11 +128,16 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MDp-dl-pUL">
+                                <rect key="frame" x="177" y="355" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kcy-ux-Unw" firstAttribute="top" secondItem="Oe6-QQ-J4j" secondAttribute="top" id="CV7-IV-X5o"/>
+                            <constraint firstItem="MDp-dl-pUL" firstAttribute="centerX" secondItem="kcy-ux-Unw" secondAttribute="centerX" id="VHD-5r-7Ri"/>
                             <constraint firstItem="kcy-ux-Unw" firstAttribute="bottom" secondItem="Oe6-QQ-J4j" secondAttribute="bottom" id="aqo-X6-j8n"/>
+                            <constraint firstItem="MDp-dl-pUL" firstAttribute="centerY" secondItem="kcy-ux-Unw" secondAttribute="centerY" id="mr7-Ek-Sae"/>
                             <constraint firstItem="kcy-ux-Unw" firstAttribute="trailing" secondItem="Oe6-QQ-J4j" secondAttribute="trailing" id="pZc-Ee-jPT"/>
                             <constraint firstItem="kcy-ux-Unw" firstAttribute="leading" secondItem="Oe6-QQ-J4j" secondAttribute="leading" id="vH0-xb-yOM"/>
                         </constraints>
@@ -141,6 +146,7 @@
                     <navigationItem key="navigationItem" id="zl4-xL-mSu"/>
                     <connections>
                         <outlet property="githubWebView" destination="kcy-ux-Unw" id="UqT-Ni-Phd"/>
+                        <outlet property="loadingSpinner" destination="MDp-dl-pUL" id="oe4-g0-T6Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EA9-Zl-xbY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -156,6 +162,9 @@
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.23137254900000001" green="0.34901960780000002" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

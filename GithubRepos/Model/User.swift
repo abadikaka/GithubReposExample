@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 /**
  * @discussion User Detail Information
  * @discussion AbilityToFavourite conform to this protocol
